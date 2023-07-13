@@ -73,6 +73,91 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-记录一次图床搭建new" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/07/13/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1%E5%9B%BE%E5%BA%8A%E6%90%AD%E5%BB%BAnew/" class="article-date">
+  <time class="dt-published" datetime="2023-07-13T06:26:05.000Z" itemprop="datePublished">2023-07-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/07/13/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1%E5%9B%BE%E5%BA%8A%E6%90%AD%E5%BB%BAnew/">记录一次图床搭建new</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="记录一次图床搭建"><a href="#记录一次图床搭建" class="headerlink" title="记录一次图床搭建"></a>记录一次图床搭建</h1><p>基本策略参考<a target="_blank" rel="noopener" href="https://www.bilibili.com/read/cv23183191"><strong>AList+云盘+LskyPro · 搭建大容量图床服务</strong></a></p>
+<p>这次搭建总共花费三天时间</p>
+<p>技术栈包括docker，webdav，linux服务器等</p>
+<p>接下来慢慢复盘：</p>
+<h2 id="1-webdav技术"><a href="#1-webdav技术" class="headerlink" title="1. webdav技术"></a>1. webdav技术</h2><p>webdav允许用户通过WebDAV客户端来访问和编辑远程服务器上的文件。虽然ssh也能远程管理文件，但是webdav更加简单。</p>
+<p>用户可以通过webdav，将远程服务器等其他设备的硬盘挂载到自己的主机上。</p>
+<p><strong>AList技术</strong>可以将各种云盘映射为webdav。这就意味着。如果使用AList作为图床存储策略。我的远程服务器本身的内存不会被占用，而是直接存储到我的阿里云盘上。</p>
+<p><img src="http://8.130.101.120:5244/d/images/2023/07/13/64af65e58f780.png?sign=4OHF8IHxzxJFU7_DhwzqWm16nUlErwF7Hsr9rszR7MM=:0" alt="图床原理.drawio.png"></p>
+<h2 id="2-docker"><a href="#2-docker" class="headerlink" title="2. docker"></a>2. docker</h2><p>docker可以把应用程序和其所需要的一切环境打包在一起，一旦打包好，就可以部署到任何地方。</p>
+<p><a href="hub.docker.com">docker hub</a>是docker官方提供的服务平台，用于存储和分享docker镜像。用户可以访问、下载和使用来自docker社区和其他用户创建的各种镜像。</p>
+<p>在图床的搭建过程中，计划使用兰空图床。但是兰空的安装要求非常繁琐，如下图：</p>
+<p><img src="http://8.130.101.120:5244/d/images/2023/07/13/64af7fce6ae04.png?sign=CtGUIGpqSW_fPQ3pJzlli14x6-dr_kMJU6cUVHtU8o0=:0" alt="兰空图床安装要求"></p>
+<p>如果不想一项一项进行安装和版本管理，docker就是一个很好的选择。在docker hub中搜索lskypro,找到一个star数较多的项目如下图：</p>
+<p><img src="http://8.130.101.120:5244/d/images/2023/07/13/64af814fafab4.png?sign=xi0-Q6GSLcsCkZLmKK1dZ8gTuBrwfh7HoUA1tvtcW2o=:0" alt="docker版lsky-pro"></p>
+<p>只需执行以下代码，就能成功安装兰空图床</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="keyword">run</span><span class="language-bash"> -d \</span></span><br><span class="line"><span class="language-bash">    --name lsky-pro \</span></span><br><span class="line"><span class="language-bash">    --restart unless-stopped \</span></span><br><span class="line"><span class="language-bash">    -p 8089:8089 \</span></span><br><span class="line"><span class="language-bash">    -v <span class="variable">$PWD</span>/lsky/web:/var/www/html \</span></span><br><span class="line"><span class="language-bash">    -e WEB_PORT=8089 \</span></span><br><span class="line"><span class="language-bash">    halcyonazure/lsky-pro-docker:latest</span></span><br></pre></td></tr></table></figure>
+
+<p>其中</p>
+<figure class="highlight docker"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="keyword">run</span><span class="language-bash"> -d <span class="comment"># 告诉docker以后台的方式运行容器</span></span></span><br><span class="line">--name lsky-pro <span class="comment"># 指定了容器的名称</span></span><br><span class="line">--restart unless-stopped <span class="comment">#表示容器会在发生错误或者重新启动时自动重启，除非明确停止</span></span><br><span class="line">-p <span class="number">8089</span>:<span class="number">8089</span> <span class="comment"># 指定docker将主机的8089端口映射到容器的8089端口，这样可以通过访问主机的8089端口来访问容器内的服务</span></span><br><span class="line">-v $PWD/lsky/web:/var/www/html <span class="comment"># 这个参数将主机中的目录&quot;$PWD/lsky/web&quot;挂载到容器的&quot;/var/www/html&quot;目录，实现主机和容器之间的文件共享。 		其中$PWD是环境变量，用于表示当前工作目录的路径 </span></span><br><span class="line">-e WEB_PORT=<span class="number">8089</span>：<span class="comment"># 这个参数设置了一个名为&quot;WEB_PORT&quot;的环境变量，并将其值设置为8089</span></span><br><span class="line">halcyonazure/lsky-pro-docker:latest：<span class="comment"># 这是指定的Docker镜像名称和版本，它作为容器的基础。</span></span><br></pre></td></tr></table></figure>
+
+<p>关于docker的操作还有很多</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker ps -a 查看当前运行的docker容器</span><br></pre></td></tr></table></figure>
+
+<p>docker由于是封装好的，所以启动了容器一般就默认会启动对应的服务。但是有时候也会有坑。有的docker已经启动成功了 在ping.pe上也能测试成功。说明宿主机防火墙没问题。（docker容器内的防火墙也存在，即容器内防火墙。但是docker发布者一般设置好了）</p>
+<p>docker容器一般只会包含必要的设置。一次想修改docker容器中的一个配置文件，进入docker中发现没有vim，想安装vim发现没有yum。。。。</p>
+<h2 id="AList"><a href="#AList" class="headerlink" title="AList"></a>AList</h2><p>AList可以把各种网盘用webdav策略挂载到远程服务器(统一管理).</p>
+<p><em>还有很大的操作空间</em></p>
+<h2 id="兰空图床"><a href="#兰空图床" class="headerlink" title="兰空图床"></a>兰空图床</h2><p>我的阿里云盘通过AList的设置挂载到了服务器的&#x2F;images目录下，兰空图床通过该目录 (&#x2F;dav&#x2F;images)上传图片并返回图片直链。并且上传到阿里云盘上的图片根据上传时间做了文件夹分类策略。如下图是2023&#x2F;7&#x2F;13日上传的图片路径：</p>
+<p><img src="http://8.130.101.120:5244/d/images/2023/07/13/64af8d3114f28.png?sign=9_Wwb4Fm9Ofw_9xatTbKsGd7KAgywds1ij2QcBIG2l4=:0" alt="图片路径"></p>
+<h2 id="todo"><a href="#todo" class="headerlink" title="todo"></a>todo</h2><p>不幸的是。兰空图床返回的图片直链存在问题，如下：</p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http://8.130.101.120:5244/d/images/2023/07/13/64af8d3114f28.png #兰空图床返回的图片直链</span><br><span class="line">http://8.130.101.120:5244/d/images/2023/07/13/64af8d3114f28.png?sign=9_Wwb4Fm9Ofw_9xatTbKsGd7KAgywds1ij2QcBIG2l4=:0 #实际的图片直链</span><br></pre></td></tr></table></figure>
+
+<p>可以发现，就是少了个签名，这个签名每张图片都不同</p>
+<p><img src="http://8.130.101.120:5244/d/images/2023/07/13/64af8efd6917a.png?sign=aZ9Loz1gAHtrLAryzDCrgxP4DuRrhTLB5PWPf6obJIw=:0" alt="关于签名的解释"></p>
+<p>这样的话，每次就不能直接把由兰空生成好的直链放到markdown文档中，还要加一遍签名。。。搞复杂了。兰空图床的唯一作用变成了按时间分类图片。</p>
+<p><strong>第二个todo nginx配置</strong></p>
+<p>nginx配置也是个大坑，大小写，模糊查询，优先级策略，还有进行路由转发后静态资源访问原来的路由导致404的问题。。</p>
+<p>这里贴两个这三天来看到的较靠谱的解决方案：</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/lsky-org/lsky-pro/discussions/357">反向代理后无法加载静态文件(css,js)</a> 解决方式是修改几行代码，现阶段看不懂</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/mshxuyi/article/details/100548435">Nginx 实现监听同一端口转发不同应用</a></p>
+<p>解决方式是先在本地主机的hosts里面配置好域名（自嗨）</p>
+<p><img src="http://8.130.101.120:5244/d/images/2023/07/13/64af9198d0bf9.png?sign=MCJMMYTlaldT5i3SWTRZo2QOHuado9pnADpNjqqyA0M=:0" alt="本地配置hosts"></p>
+<p>注意 macos本地的hosts在&#x2F;etc&#x2F;hosts。模式为只读，因此需要用sudo vim hosts来修改。</p>
+<p>修改完成后配置远程服务器端的nginx：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">upstream</span> music&#123;</span><br><span class="line">    <span class="attribute">server</span> <span class="number">127.0.0.1:81</span>;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="section">upstream</span> video&#123;</span><br><span class="line">    <span class="attribute">server</span> <span class="number">127.0.0.1:82</span>;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span>       <span class="number">80</span>;</span><br><span class="line">    <span class="attribute">server_name</span>  music.proxy.com;</span><br><span class="line"> </span><br><span class="line">    <span class="section">location</span> / &#123;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> Host <span class="variable">$host</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-Forwarded-For <span class="variable">$proxy_add_x_forwarded_for</span>;</span><br><span class="line">        <span class="attribute">proxy_pass</span> http://music;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span>       <span class="number">80</span>;</span><br><span class="line">    <span class="attribute">server_name</span>  video.proxy.com;</span><br><span class="line"> </span><br><span class="line">    <span class="section">location</span> / &#123;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> Host <span class="variable">$host</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-Forwarded-For <span class="variable">$proxy_add_x_forwarded_for</span>;</span><br><span class="line">        <span class="attribute">proxy_pass</span> http://video;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样的方法，我一开始成功了，过一段时间再去访问就被阿里逮捕了，（用的阿里云服务器）在过一段时间就502了。自娱自乐的域名都不行，要么申请国外的服务器，要么就只能老老实实备案了。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/07/13/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1%E5%9B%BE%E5%BA%8A%E6%90%AD%E5%BB%BAnew/" data-id="clk0rpf7o0000qgao67qo5j50" data-title="记录一次图床搭建new" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-记录一次图床搭建" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2023/07/13/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1%E5%9B%BE%E5%BA%8A%E6%90%AD%E5%BB%BA/" class="article-date">
@@ -266,6 +351,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2023/07/13/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1%E5%9B%BE%E5%BA%8A%E6%90%AD%E5%BB%BAnew/">记录一次图床搭建new</a>
+          </li>
         
           <li>
             <a href="/2023/07/13/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1%E5%9B%BE%E5%BA%8A%E6%90%AD%E5%BB%BA/">(no title)</a>

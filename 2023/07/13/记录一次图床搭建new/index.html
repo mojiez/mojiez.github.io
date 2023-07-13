@@ -4,26 +4,26 @@
   <meta charset="utf-8">
   
   
-  <title>Hexo</title>
+  <title>记录一次图床搭建new | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="记录一次图床搭建基本策略参考AList+云盘+LskyPro · 搭建大容量图床服务 这次搭建总共花费三天时间 技术栈包括docker，webdav，linux服务器等 接下来慢慢复盘： 1. webdav技术webdav允许用户通过WebDAV客户端来访问和编辑远程服务器上的文件。虽然ssh也能远程管理文件，但是webdav更加简单。 用户可以通过webdav，将远程服务器等其他设备的硬盘挂载到">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/2023/07/13/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1%E5%9B%BE%E5%BA%8A%E6%90%AD%E5%BB%BA/index.html">
+<meta property="og:title" content="记录一次图床搭建new">
+<meta property="og:url" content="http://example.com/2023/07/13/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1%E5%9B%BE%E5%BA%8A%E6%90%AD%E5%BB%BAnew/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="记录一次图床搭建基本策略参考AList+云盘+LskyPro · 搭建大容量图床服务 这次搭建总共花费三天时间 技术栈包括docker，webdav，linux服务器等 接下来慢慢复盘： 1. webdav技术webdav允许用户通过WebDAV客户端来访问和编辑远程服务器上的文件。虽然ssh也能远程管理文件，但是webdav更加简单。 用户可以通过webdav，将远程服务器等其他设备的硬盘挂载到">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://cn-beijing-data.aliyundrive.net/ztjBXt7B%2F82725464%2F64af606d6b60efc124e840edacfe1483c8a282bd%2F64af606dbfb861d80df14fc88de5268a8be9fe53?di=bj29&dr=82725464&f=64af606d6b60efc124e840edacfe1483c8a282bd&response-content-disposition=attachment;%20filename*=UTF-8%27%2764af606c971eb.png&security-token=CAIS+gF1q6Ft5B2yfSjIr5bhLYjhh7hl1JSNcnDoo2UiY+BKh6v6mjz2IHFPeHJrBeAYt/oxmW1X5vwSlq5rR4QAXlDfNQHtTF6qqFHPWZHInuDox55m4cTXNAr+Ihr/29CoEIedZdjBe/CrRknZnytou9XTfimjWFrXWv/gy+QQDLItUxK/cCBNCfpPOwJms7V6D3bKMuu3OROY6Qi5TmgQ41Uh1jgjtPzkkpfFtkGF1GeXkLFF+97DRbG/dNRpMZtFVNO44fd7bKKp0lQLukMWr/wq3PIdp2ma447NWQlLnzyCMvvJ9OVDFyN0aKEnH7J+q/zxhTPrMnpkSlacGoABMyJgQvBmb4drO0JN9OqaIj/GPMmY2fqKJkiZG9MGLOisxt2Z8rADWgxxRb790sx2YVh73ZGLQqJGVfglXcshQKsD0bE4SLFx269NT+MwAU6pE2OCZmh1n4V9+CHteBmII39x7dej2+lrPOgNaO7rgCWoFSsdDNpWbBhVV9q/ftg=&u=9a700a5f6a2c43a2b29e1ad49c56634c&x-oss-access-key-id=STS.NUTf2UjgDcVfpVYGewoofhnQx&x-oss-expires=1689229515&x-oss-signature=F1+tUCH+McjJgxJnmZ5rk8akXhgcAmJG2LUaw4ePAvw=&x-oss-signature-version=OSS2">
+<meta property="og:image" content="http://8.130.101.120:5244/d/images/2023/07/13/64af65e58f780.png?sign=4OHF8IHxzxJFU7_DhwzqWm16nUlErwF7Hsr9rszR7MM=:0">
 <meta property="og:image" content="http://8.130.101.120:5244/d/images/2023/07/13/64af7fce6ae04.png?sign=CtGUIGpqSW_fPQ3pJzlli14x6-dr_kMJU6cUVHtU8o0=:0">
 <meta property="og:image" content="http://8.130.101.120:5244/d/images/2023/07/13/64af814fafab4.png?sign=xi0-Q6GSLcsCkZLmKK1dZ8gTuBrwfh7HoUA1tvtcW2o=:0">
 <meta property="og:image" content="http://8.130.101.120:5244/d/images/2023/07/13/64af8d3114f28.png?sign=9_Wwb4Fm9Ofw_9xatTbKsGd7KAgywds1ij2QcBIG2l4=:0">
 <meta property="og:image" content="http://8.130.101.120:5244/d/images/2023/07/13/64af8efd6917a.png?sign=aZ9Loz1gAHtrLAryzDCrgxP4DuRrhTLB5PWPf6obJIw=:0">
 <meta property="og:image" content="http://8.130.101.120:5244/d/images/2023/07/13/64af9198d0bf9.png?sign=MCJMMYTlaldT5i3SWTRZo2QOHuado9pnADpNjqqyA0M=:0">
-<meta property="article:published_time" content="2023-07-13T02:21:48.342Z">
-<meta property="article:modified_time" content="2023-07-13T06:04:17.420Z">
+<meta property="article:published_time" content="2023-07-13T06:26:05.000Z">
+<meta property="article:modified_time" content="2023-07-13T06:29:01.564Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://cn-beijing-data.aliyundrive.net/ztjBXt7B%2F82725464%2F64af606d6b60efc124e840edacfe1483c8a282bd%2F64af606dbfb861d80df14fc88de5268a8be9fe53?di=bj29&dr=82725464&f=64af606d6b60efc124e840edacfe1483c8a282bd&response-content-disposition=attachment;%20filename*=UTF-8%27%2764af606c971eb.png&security-token=CAIS+gF1q6Ft5B2yfSjIr5bhLYjhh7hl1JSNcnDoo2UiY+BKh6v6mjz2IHFPeHJrBeAYt/oxmW1X5vwSlq5rR4QAXlDfNQHtTF6qqFHPWZHInuDox55m4cTXNAr+Ihr/29CoEIedZdjBe/CrRknZnytou9XTfimjWFrXWv/gy+QQDLItUxK/cCBNCfpPOwJms7V6D3bKMuu3OROY6Qi5TmgQ41Uh1jgjtPzkkpfFtkGF1GeXkLFF+97DRbG/dNRpMZtFVNO44fd7bKKp0lQLukMWr/wq3PIdp2ma447NWQlLnzyCMvvJ9OVDFyN0aKEnH7J+q/zxhTPrMnpkSlacGoABMyJgQvBmb4drO0JN9OqaIj/GPMmY2fqKJkiZG9MGLOisxt2Z8rADWgxxRb790sx2YVh73ZGLQqJGVfglXcshQKsD0bE4SLFx269NT+MwAU6pE2OCZmh1n4V9+CHteBmII39x7dej2+lrPOgNaO7rgCWoFSsdDNpWbBhVV9q/ftg=&u=9a700a5f6a2c43a2b29e1ad49c56634c&x-oss-access-key-id=STS.NUTf2UjgDcVfpVYGewoofhnQx&x-oss-expires=1689229515&x-oss-signature=F1+tUCH+McjJgxJnmZ5rk8akXhgcAmJG2LUaw4ePAvw=&x-oss-signature-version=OSS2">
+<meta name="twitter:image" content="http://8.130.101.120:5244/d/images/2023/07/13/64af65e58f780.png?sign=4OHF8IHxzxJFU7_DhwzqWm16nUlErwF7Hsr9rszR7MM=:0">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -82,15 +82,25 @@
 </header>
 
       <div class="outer">
-        <section id="main"><article id="post-记录一次图床搭建" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+        <section id="main"><article id="post-记录一次图床搭建new" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2023/07/13/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1%E5%9B%BE%E5%BA%8A%E6%90%AD%E5%BB%BA/" class="article-date">
-  <time class="dt-published" datetime="2023-07-13T02:21:48.342Z" itemprop="datePublished">2023-07-13</time>
+    <a href="/2023/07/13/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1%E5%9B%BE%E5%BA%8A%E6%90%AD%E5%BB%BAnew/" class="article-date">
+  <time class="dt-published" datetime="2023-07-13T06:26:05.000Z" itemprop="datePublished">2023-07-13</time>
 </a>
     
   </div>
   <div class="article-inner">
     
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      记录一次图床搭建new
+    </h1>
+  
+
+      </header>
     
     <div class="e-content article-entry" itemprop="articleBody">
       
@@ -101,7 +111,7 @@
 <h2 id="1-webdav技术"><a href="#1-webdav技术" class="headerlink" title="1. webdav技术"></a>1. webdav技术</h2><p>webdav允许用户通过WebDAV客户端来访问和编辑远程服务器上的文件。虽然ssh也能远程管理文件，但是webdav更加简单。</p>
 <p>用户可以通过webdav，将远程服务器等其他设备的硬盘挂载到自己的主机上。</p>
 <p><strong>AList技术</strong>可以将各种云盘映射为webdav。这就意味着。如果使用AList作为图床存储策略。我的远程服务器本身的内存不会被占用，而是直接存储到我的阿里云盘上。</p>
-<p><img src="https://cn-beijing-data.aliyundrive.net/ztjBXt7B%2F82725464%2F64af606d6b60efc124e840edacfe1483c8a282bd%2F64af606dbfb861d80df14fc88de5268a8be9fe53?di=bj29&dr=82725464&f=64af606d6b60efc124e840edacfe1483c8a282bd&response-content-disposition=attachment;%20filename*=UTF-8%27%2764af606c971eb.png&security-token=CAIS+gF1q6Ft5B2yfSjIr5bhLYjhh7hl1JSNcnDoo2UiY+BKh6v6mjz2IHFPeHJrBeAYt/oxmW1X5vwSlq5rR4QAXlDfNQHtTF6qqFHPWZHInuDox55m4cTXNAr+Ihr/29CoEIedZdjBe/CrRknZnytou9XTfimjWFrXWv/gy+QQDLItUxK/cCBNCfpPOwJms7V6D3bKMuu3OROY6Qi5TmgQ41Uh1jgjtPzkkpfFtkGF1GeXkLFF+97DRbG/dNRpMZtFVNO44fd7bKKp0lQLukMWr/wq3PIdp2ma447NWQlLnzyCMvvJ9OVDFyN0aKEnH7J+q/zxhTPrMnpkSlacGoABMyJgQvBmb4drO0JN9OqaIj/GPMmY2fqKJkiZG9MGLOisxt2Z8rADWgxxRb790sx2YVh73ZGLQqJGVfglXcshQKsD0bE4SLFx269NT+MwAU6pE2OCZmh1n4V9+CHteBmII39x7dej2+lrPOgNaO7rgCWoFSsdDNpWbBhVV9q/ftg=&u=9a700a5f6a2c43a2b29e1ad49c56634c&x-oss-access-key-id=STS.NUTf2UjgDcVfpVYGewoofhnQx&x-oss-expires=1689229515&x-oss-signature=F1+tUCH+McjJgxJnmZ5rk8akXhgcAmJG2LUaw4ePAvw=&x-oss-signature-version=OSS2" alt="图床原理.drawio.png"></p>
+<p><img src="http://8.130.101.120:5244/d/images/2023/07/13/64af65e58f780.png?sign=4OHF8IHxzxJFU7_DhwzqWm16nUlErwF7Hsr9rszR7MM=:0" alt="图床原理.drawio.png"></p>
 <h2 id="2-docker"><a href="#2-docker" class="headerlink" title="2. docker"></a>2. docker</h2><p>docker可以把应用程序和其所需要的一切环境打包在一起，一旦打包好，就可以部署到任何地方。</p>
 <p><a href="hub.docker.com">docker hub</a>是docker官方提供的服务平台，用于存储和分享docker镜像。用户可以访问、下载和使用来自docker社区和其他用户创建的各种镜像。</p>
 <p>在图床的搭建过程中，计划使用兰空图床。但是兰空的安装要求非常繁琐，如下图：</p>
@@ -145,7 +155,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/07/13/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1%E5%9B%BE%E5%BA%8A%E6%90%AD%E5%BB%BA/" data-id="clk0r4bvq0000gaaobm243zpi" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2023/07/13/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1%E5%9B%BE%E5%BA%8A%E6%90%AD%E5%BB%BAnew/" data-id="clk0rpf7o0000qgao67qo5j50" data-title="记录一次图床搭建new" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -155,19 +165,10 @@
     
 <nav id="article-nav">
   
-    <a href="/2023/07/13/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1%E5%9B%BE%E5%BA%8A%E6%90%AD%E5%BB%BAnew/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          记录一次图床搭建new
-        
-      </div>
-    </a>
   
-  
-    <a href="/2023/07/08/%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2023/07/13/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1%E5%9B%BE%E5%BA%8A%E6%90%AD%E5%BB%BA/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">第一篇博客</div>
+      <div class="article-nav-title"></div>
     </a>
   
 </nav>
